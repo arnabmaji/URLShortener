@@ -1,0 +1,13 @@
+body {
+    font-family: 'Roboto Mono', monospace;
+    color: white;
+    height: 100%;
+
+}
+.center-div {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 80vh;
+    flex-direction: column;
+}

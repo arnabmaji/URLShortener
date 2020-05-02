@@ -25,6 +25,8 @@ mongoose
 // middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+app.set('view engine', 'ejs');
+app.use(express.static(__dirname + '/public'));
 
 // routes
 // add home route
@@ -54,7 +56,7 @@ app.get('/get/:key', async (req, res) => {
     const mapper = await UrlMapper.findOne({ key: req.params.key });
 
     // if mapper is not found
-    if (!mapper) return res.sendStatus(404);
+    if (!mapper) return res.render('not-found', { key: req.params.key });
 
     // otherwise, redirect to url
     res.redirect(mapper.url);
