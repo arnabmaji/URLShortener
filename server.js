@@ -31,7 +31,7 @@ app.use(express.static(__dirname + '/public'));
 // routes
 // add home route
 app.get('/', (req, res) => {
-    res.status(200).send('Url Shortener');
+    res.render('index');
 });
 
 // add route for creating new url shortener

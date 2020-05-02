@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Home</title>
+    <%- include('partials/links') -%>
+</head>
+<body>
+    <div class="container center-div">
+        <h1>URL Shortener</h1><br>
+        <div>
+            <label for="key">Key</label>
+            <input type="text" id="key" class="form-control" placeholder="Enter Key"><br>
+            <label for="url">URL</label>
+            <input type="text" id="url" class="form-control" placeholder="Paste URL"><br>
+            <button class="btn btn-primary" id="button">
+                <span class="spinner-border spinner-border-sm d-none" id="spinner"></span>
+                <span id="btn-text">Create</span>
+            </button>
+            <h6 class="mt-2">NOTE: Goto '/get/YOUR_KEY' to Visit your URL.</h6>
+
+        </div>
+    </div>
+    <div id="snackbar">Snackbar</div>
+    <script src="http://localhost:5000/app.js"></script>
+</body>
+</html>
