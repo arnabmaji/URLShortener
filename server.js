@@ -7,13 +7,14 @@ const { UrlMapper, validate } = require('./models/UrlMapper');
 const app = express();
 
 // connect to mongodb
+console.log('Connecting to MongoDB...');
 mongoose
     .connect('mongodb://localhost/url-shortener', {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         useCreateIndex: true
     })
-    .then(() => console.log('Connected to MongoDb'))
+    .then(() => console.log('Connected to MongoDB'))
     .catch(err => {
         console.log('Failed to connect to MongoDB');
         console.log('ERROR: ', err.message);
@@ -28,7 +29,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 // routes
 // add home route
 app.get('/', (req, res) => {
-    res.send('Url Shortener');
+    res.status(200).send('Url Shortener');
 });
 
 // add route for creating new url shortener
@@ -47,6 +48,17 @@ app.post('/', async (req, res) => {
     await mapper.save();
     res.sendStatus(200);
 });
+
+// add route for redirecting pages according to keys
+app.get('/get/:key', async (req, res) => {
+    const mapper = await UrlMapper.findOne({ key: req.params.key });
+
+    // if mapper is not found
+    if (!mapper) return res.sendStatus(404);
+
+    // otherwise, redirect to url
+    res.redirect(mapper.url);
+})
 
 // start the server on port
 app.listen(process.env.PORT, () => console.log(`Listening on port ${process.env.PORT}...`));
