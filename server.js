@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const _ = require('lodash');
 const { UrlMapper, validate } = require('./models/UrlMapper');
 
 const app = express();
@@ -31,9 +32,19 @@ app.get('/', (req, res) => {
 });
 
 // add route for creating new url shortener
-app.post('/', (req, res) => {
+app.post('/', async (req, res) => {
     const { error } = validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
+
+    // check if key already exists
+    let mapper = await UrlMapper.findOne({ key: req.body.key });
+
+    // if key already exists
+    if (mapper) return res.status(400).send('Key already taken.');
+
+    //otherwise, create new mapper in db
+    mapper = new UrlMapper(_.pick(req.body, ['key', 'url']));
+    await mapper.save();
     res.sendStatus(200);
 });
 
